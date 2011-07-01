@@ -1,3 +1,6 @@
 [submodule "raphael"]
 	path = raphael
 	url = https://github.com/DmitryBaranovskiy/raphael.git
+[submodule "raphael-svg-import"]
+	path = raphael-svg-import
+	url = https://github.com/wout/raphael-svg-import.git
