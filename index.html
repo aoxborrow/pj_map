@@ -3,27 +3,20 @@
 <html>
 	<head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<title>PJJ Status Map SVG Demo</title>
-		<style type="text/css" media="screen">
-		  body, html {
-			margin: 0;
-			padding: 0;
-			background-color: #fff;
-			height: 100%;
-		  }
-		  #paper {
-			width:100%;
-			height: 100%;
-		  }
-		</style>
+	<title>PJJ Order Status Map</title>
+	<link rel="stylesheet" href="assets/css/pjj_map.css" type="text/css" media="screen" />
 	</head>
 
 	<body>
+		<div id="storeHeader">
+			<a href="http://photojojo.com/store/"></a>
+		</div>
 		<div id="paper"></div>
 	</body>
-	
-	<script src="raphael/raphael-min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="raphael-svg-import/lib/raphael-shapes.js" type="text/javascript" charset="utf-8"></script>
-	<script src="raphael-svg-import/raphael-svg-import.js" type="text/javascript" charset="utf-8"></script>	
-	<script src="pjj-map.js" type="text/javascript" charset="utf-8"></script>
+
+	<script src="libraries/raphael/raphael-min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="libraries/raphael-svg-import/lib/raphael-shapes.js" type="text/javascript" charset="utf-8"></script>
+	<script src="libraries/raphael-svg-import/raphael-svg-import.js" type="text/javascript" charset="utf-8"></script>
+	<script src="assets/js/pjj_map_assets.js" type="text/javascript" charset="utf-8"></script>
+	<script src="assets/js/pjj_map.js" type="text/javascript" charset="utf-8"></script>
 </html>
