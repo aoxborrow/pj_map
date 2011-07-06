@@ -24,7 +24,7 @@ function pathTest(testNum, lat, long, label) {
 	// compute coordinates
 	var destX = projectLat(lat);
 	var destY = projectLong(long);
-
+	
 	// add a label
 	if (label !== undefined) {
 		// add white background for legibility
@@ -33,33 +33,31 @@ function pathTest(testNum, lat, long, label) {
 	}
 
 	// draw red map marker
-	var mrkr = map.ellipse(destX, destY, 2, 2).attr({stroke: "none", fill: "#f00"}).translate(-1, -1);	
+	var mrkr = map.ellipse(destX, destY, 2, 2).attr({stroke: "none", fill: "#f00"});
 	
 	// don't draw a path for origin
-	if (originX == destX && originY == destY) {
-		return;
-	}
+	if (originX != destX && originY != destY) {
+		setTimeout(function() {
 	
-	setTimeout(function() {
-	
-		// midpoint coordinates (for curve)
-		var midpointX = (originX+destX) / 2;
-		var midpointY = (originY+destY) / 2;
+			// midpoint coordinates (for curve)
+			var midpointX = (originX+destX) / 2;
+			var midpointY = (originY+destY) / 2;
 
-		// draw shipping path from origin
-		var pathSVG = 'M '+originX+' '+originY+' Q '+(midpointX-30)+' '+(midpointY+80)+' '+destX+' '+destY;
+			// draw shipping path from origin
+			var pathSVG = 'M '+originX+' '+originY+' Q '+(midpointX-30)+' '+(midpointY+80)+' '+destX+' '+destY;
 		
-		// draw shipping path
-		var ship_path = map.path(pathSVG).attr({opacity: .5, stroke: '#222', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': '- '});
+			// draw shipping path
+			var ship_path = map.path(pathSVG).attr({opacity: .5, stroke: '#222', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': '- '});
 		
-		// package marker
-		var marker = map.ellipse(originX, originY, 6, 6).attr({stroke: "none", fill: "#66cccc"});
-		marker.animateAlong(ship_path, 1000, function() {
-			this.hide();
-		});
+			// package marker
+			var marker = map.ellipse(originX, originY, 6, 6).attr({stroke: "none", fill: "#66cccc"});
+			marker.animateAlong(ship_path, 1000, function() {
+				this.hide();
+			});
 	
-	}, (testNum-1)*1000);
-	
+		}, (testNum-1)*1000);
+
+	}
 	
 }
 
@@ -122,12 +120,12 @@ if (DEBUG) {
 var tests = [];
 tests[0] = [431, 116, 'Mobridge'];
 tests[1] = [123, 74, 'Seattle'];
-tests[2] = [271, 210, 'Salt Lake City'];
-tests[3] = [122, 263];
+tests[2] = [122, 263];
+tests[3] = [271, 209, 'Salt Lake City'];
 tests[4] = [268, 338, 'Phoenix'];
-tests[5] = [470, 392, 'Austin'];
+tests[5] = [470, 391, 'Austin'];
 tests[6] = [700, 419, 'Orlando'];
-tests[7] = [696, 195, 'Cleveland'];
+tests[7] = [695, 195, 'Cleveland'];
 
 // test some locations
 for (var l = 0; l < tests.length; l++) {

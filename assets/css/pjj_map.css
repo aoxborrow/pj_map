@@ -3,26 +3,27 @@ body, html {
 	padding: 0;
 	background-color: #fff;
 }
-#map {
-	border: 1px solid #eee;
-	margin: 150px auto 0 auto;
-	width: 970px;
-	height: 500px;
-	background-image: url('../images/map_bg.jpg');
-}
 #storeHeader {
 	width: 100%;
 	background-image: url('../images/storeTileHeader4.jpg');
 	background-repeat: repeat-x;
 	height: 132px;
-	position: absolute;
 	top: 0px;
 	left: 0px;
 }
 #storeHeader a {
 	display: block;
-	margin: 4px auto;
+	margin: 0px auto;
 	width: 267px;
-	height: 128px;
+	height: 132px;
 	background-image: url('../images/storeLogoWithFlag.png');
 }
+#map {
+	display: block;
+	border: 1px solid #eee;
+	margin: 20px auto;
+	width: 970px;
+	height: 500px;
+	background-image: url('../images/map_bg.jpg');
+}
+
