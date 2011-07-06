@@ -3,7 +3,7 @@ body, html {
 	padding: 0;
 	background-color: #fff;
 }
-#paper {
+#map {
 	border: 1px solid #eee;
 	margin: 150px auto 0 auto;
 	width: 970px;
