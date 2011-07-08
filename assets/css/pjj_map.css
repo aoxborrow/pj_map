@@ -28,13 +28,18 @@ body, html {
 #debug {
 	border: 1px solid #ddd;
 	padding: 5px 20px;
-	width: 970px;
+	width: 930px;
 	margin: 0 auto 30px auto;
 }
 #debug input {
 	color: #333;
 	padding: 2px;
 	font-size: 14px;
-	margin: 10px 5px;
+	margin: 10px;
+	margin-left: 0;
+}
+#debug input[type="text"] {
+	color: #888;	
+	border: 1px solid #ddd;
 }
 

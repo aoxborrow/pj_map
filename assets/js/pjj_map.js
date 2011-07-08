@@ -16,6 +16,20 @@ var maxLon = -80.2264393;
 var maxX = 719;
 var maxY = 454;
 
+// setup some locations for projection testing
+// http://www.getlatlon.com
+var tests = [];
+tests[0] = ['Mobridge', 45.5372162, -100.4279129];
+tests[1] = ['Seattle', 47.6062095, -122.3320708, ];
+tests[2] = ['San Francisco', 37.7749295, -122.4194155];
+tests[3] = ['Phoenix', 33.4483771, -112.0740373];
+tests[4] = ['Austin', 30.267153, -97.7430608];
+tests[5] = ['Miami', 25.7889689, -80.2264393];
+tests[6] = ['Atlanta', 33.7489954, -84.3879824];
+tests[7] = ['Pittsburgh', 40.4406248, -79.9958864];
+tests[8] = ['North', 49.023461463214126, -95.185546875];
+
+
 // Photojojo SVG Status Map
 $(document).ready(function(){
 	
@@ -26,6 +40,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	// test form
 	$('#mapit').submit(function() {
 		serviceRequest($('#location').val());
 		return false;
@@ -50,24 +65,6 @@ $(document).ready(function(){
 
 	// setup raphael object
 	map = Raphael(document.getElementById('map'), 970, 500);
-
-	// setup some locations for projection testing
-	// http://www.getlatlon.com
-	var tests = [];
-	tests[0] = ['Mobridge', 45.5372162, -100.4279129];
-	tests[1] = ['Seattle', 47.6062095, -122.3320708, ];
-	tests[2] = ['San Francisco', 37.7749295, -122.4194155];
-	tests[3] = ['Phoenix', 33.4483771, -112.0740373];
-	tests[4] = ['Austin', 30.267153, -97.7430608];
-	tests[5] = ['Miami', 25.7889689, -80.2264393];
-	tests[6] = ['Atlanta', 33.7489954, -84.3879824];
-	tests[7] = ['Pittsburgh', 40.4406248, -79.9958864];
-	tests[8] = ['North', 49.023461463214126, -95.185546875];
-
-	// test some locations
-	for (var l = 0; l < tests.length; l++) {
-		pathTest(map, l, tests[l][0], tests[l][1], tests[l][2]);	
-	}
 
 	if (DEBUG) {
 
@@ -104,15 +101,22 @@ $(document).ready(function(){
 	
 	}
 	
+	// test locations
+	for (var l = 0; l < tests.length; l++) {
+		pathTest(l, tests[l][0], tests[l][1], tests[l][2]);	
+	}
+	
+	
 });
 
+// geocoding service request
 function serviceRequest(query) {
 	
 	// geocoding service
 	var service = 'http://tinygeocoder.com/create-api.php?q=' + query;
 	var service = 'http://tinygeocoder.com/create-api.php?q=' + query + '&callback=mapLocation';
 	
-	// request lat/lon pair
+	// request lat/lon pair with callback
 	$.ajax({
 		url: service,
 		dataType: "script",
@@ -126,19 +130,23 @@ function mapLocation(coords) {
 	var lat = coords[0];
 	var lon = coords[1];
 	
+	// draw location based on supplied coords
 	pathTest(map, 1, label, lat, lon);
+	
+	// clear input box
+	$('#location').val('');
 	
 }
 
-// takes a lat/lon pair and draws a red dot on the map, with a label for debugging
-function pathTest(map, testNum, label, lat, lon) {
+// takes a lat/lon pair and draws a dot and path on the map, with a label for debugging
+function pathTest(testNum, label, lat, lon) {
 	
 	// origin coordinates (Mobridge, SD)
 	var originX = 440;
 	var originY = 114;
 
 	// map projection to get coordinatess
-	var dest = mapProject1(lat, lon);
+	var dest = mapProject2(lat, lon);
 	var destX = dest.x;
 	var destY = dest.y;
 	
@@ -183,7 +191,7 @@ function pathTest(map, testNum, label, lat, lon) {
 	
 }
 
-// project latitude onto map, return coordinates
+// project lat/lon onto map, return X/Y coordinates
 // using distance calculation
 // http://www.meridianworlddata.com/Distance-Calculation.asp
 function mapProject1(lat, lon) {
@@ -208,7 +216,7 @@ function mapProject1(lat, lon) {
 	
 }
 
-// project latitude onto map, return coordinates
+// project lat/lon onto map, return X/Y coordinates
 // using full Mercator projection
 // http://stackoverflow.com/questions/1019997/convert-lat-longs-to-x-y-co-ordinates/1020681#1020681
 function mapProject2(lat, lon) {
@@ -243,7 +251,7 @@ function mapProject2(lat, lon) {
 	return {x:x + shiftX, y:y + shiftY};
 }
 
-// project latitude onto map, return coordinates
+// project lat/lon onto map, return X/Y coordinates
 // using simple linear interpolation
 function mapProject3(lat, lon) {
 	
