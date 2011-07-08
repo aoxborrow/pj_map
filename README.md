@@ -1,5 +1,12 @@
 # PJJ Order Status Map Changelog
 
+**July 7th, 2011 (x hours)**
+
+- cleaned up v4 map, traced new USA outline closer to reference map.
+- output new background images and SVG for new outline
+- matched test cities to new map
+
+
 **July 5th, 2011 (6 hours)**
 
 - setup git repo, moved Raphael and svg-import into submodules to keep them updated

@@ -1,4 +1,6 @@
 // Photojojo SVG Status Map
+// colors for paths
+var brown = '#916639';
 
 // get query string params
 // http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript/2880929#2880929
@@ -16,24 +18,14 @@ var urlParams = {};
 
 // takes a lat/long pair and draws a red dot on the map, with a label for debugging
 function pathTest(testNum, lat, long, label) {
-
+	
 	// origin coordinates (Mobridge, SD)
-	var originX = 431;
-	var originY = 116;
+	var originX = 440;
+	var originY = 114;
 
 	// compute coordinates
 	var destX = projectLat(lat);
 	var destY = projectLong(long);
-	
-	// add a label
-	if (label !== undefined) {
-		// add white background for legibility
-		var lbl_bg = map.text(destX+5, destY, label).attr({'font-family': 'sans-serif', 'font-weight': 'bold', 'font-size': 12, fill: '#fff', 'text-anchor': 'start', stroke: '#fff', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'})
-		var lbl = map.text(destX+5, destY, label).attr({'font-family': 'sans-serif', 'font-weight': 'bold', 'font-size': 12, fill: '#f00', 'text-anchor': 'start'})
-	}
-
-	// draw red map marker
-	var mrkr = map.ellipse(destX, destY, 2, 2).attr({stroke: "none", fill: "#f00"});
 	
 	// don't draw a path for origin
 	if (originX != destX && originY != destY) {
@@ -47,7 +39,7 @@ function pathTest(testNum, lat, long, label) {
 			var pathSVG = 'M '+originX+' '+originY+' Q '+(midpointX-30)+' '+(midpointY+80)+' '+destX+' '+destY;
 		
 			// draw shipping path
-			var ship_path = map.path(pathSVG).attr({opacity: .5, stroke: '#222', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': '- '});
+			var ship_path = map.path(pathSVG).attr({opacity: .5, stroke: brown, 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': '- '});
 		
 			// package marker
 			var marker = map.ellipse(originX, originY, 6, 6).attr({stroke: "none", fill: "#66cccc"});
@@ -58,6 +50,16 @@ function pathTest(testNum, lat, long, label) {
 		}, (testNum-1)*1000);
 
 	}
+	
+	// add a label
+	if (label !== undefined) {
+		// add white background for legibility
+		var lbl_bg = map.text(destX+7, destY, label).attr({'font-family': 'sans-serif', 'font-weight': 'bold', 'font-size': 12, fill: '#fff', 'text-anchor': 'start', stroke: '#fff', 'stroke-width': 5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'})
+		var lbl = map.text(destX+7, destY, label).attr({'font-family': 'sans-serif', 'font-weight': 'bold', 'font-size': 12, fill: brown, 'text-anchor': 'start'})
+	}
+
+	// draw location marker
+	var mrkr = map.ellipse(destX, destY, 3, 3).attr({stroke: "none", fill: brown});
 	
 }
 
@@ -83,13 +85,13 @@ var DEBUG = ('debug' in urlParams);
 // setup raphael object
 var map = Raphael(document.getElementById('map'), 970, 500);
 
-// draw usa outline
-var usa = map.path(mapAssets.usa).attr({opacity: '.8', stroke: '#92724d', 'stroke-width': 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'});
+// draw usa outline //91704d //92724d
+var usa = map.path(mapAssets.usa).attr({opacity: '.7', stroke: brown, 'stroke-width': 1.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'});
 
 if (DEBUG) {
 
 	// change map background to real map for debug
-	$('#map').css('background-image', "url('./assets/images/realmap_bg.jpg')");
+	$('#map').css('background-image', "url('./assets/images/realmapv4_bg.jpg')");
 	
 } else {
 		
@@ -102,14 +104,14 @@ if (DEBUG) {
 	var warehouse = map.path(mapAssets.warehouse).attr({fill: '#222', stroke: '#222', 'stroke-width': .5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'}).translate(625, 200);
 
 	// draw PJJ HQ
-	var hq = map.image("./assets/images/pjj_hq.png", 80, 243, 80, 60);
+	var hq = map.image("./assets/images/pjj_hq.png", 94, 240, 80, 60);
 
 	// draw example shipping path
 	var pathSVG = 'M 660 245 c0,150 -200-100 -200,0 s-100,50 -100,0 s50,-50 50,0 s-100,50 -100,0 s50,-100 -130,-100';
 	var ship_path = map.path(pathSVG).attr({stroke: '#3b4449', 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': '- '}); 
 
-	// yellow location marker
-	var marker = map.ellipse(660, 245, 8, 8).attr({stroke: "none", fill: "#ff0"});
+	// location marker (yellow: #ff0)
+	var marker = map.ellipse(660, 245, 8, 8).attr({stroke: "none", fill: "#ea8815"});
 	marker.animateAlong(ship_path, 8000, function() {
 		this.hide();
 	});
@@ -118,14 +120,13 @@ if (DEBUG) {
 
 // setup some locations for projection testing
 var tests = [];
-tests[0] = [431, 116, 'Mobridge'];
-tests[1] = [123, 74, 'Seattle'];
-tests[2] = [122, 263];
-tests[3] = [271, 209, 'Salt Lake City'];
-tests[4] = [268, 338, 'Phoenix'];
-tests[5] = [470, 391, 'Austin'];
-tests[6] = [700, 419, 'Orlando'];
-tests[7] = [695, 195, 'Cleveland'];
+tests[0] = [440, 114, 'Mobridge'];
+tests[1] = [136, 73, 'Seattle'];
+tests[2] = [135, 259, ''];
+tests[3] = [278, 332, 'Phoenix'];
+tests[4] = [477, 384, 'Austin'];
+tests[5] = [661, 326, 'Atlanta'];
+tests[6] = [724, 210, 'Pittsburgh'];
 
 // test some locations
 for (var l = 0; l < tests.length; l++) {

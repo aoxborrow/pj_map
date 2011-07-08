@@ -20,10 +20,9 @@ body, html {
 }
 #map {
 	display: block;
-	border: 1px solid #eee;
 	margin: 20px auto;
 	width: 970px;
 	height: 500px;
-	background-image: url('../images/map_bg.jpg');
+	background-image: url('../images/mapv4_bg.jpg');
 }
 
