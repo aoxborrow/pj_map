@@ -30,6 +30,11 @@ body, html {
 	padding: 5px 20px;
 	width: 970px;
 	margin: 0 auto 30px auto;
-	white-space: pre;
+}
+#debug input {
+	color: #333;
+	padding: 2px;
+	font-size: 14px;
+	margin: 10px 5px;
 }
 

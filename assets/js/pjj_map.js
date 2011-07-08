@@ -1,32 +1,62 @@
+// raphael map object
+var map;
+
+// color for paths
+var brown = '#916639';
+
+// top left coordinate, Seattle, Wash
+var minLat = 47.66539;
+var minLon = -122.43164;
+var minX = 136;
+var minY = 72;
+
+// bottom right coordinate, Miami, Fl
+var maxLat = 25.7889689;
+var maxLon = -80.2264393;
+var maxX = 719;
+var maxY = 454;
+
 // Photojojo SVG Status Map
 $(document).ready(function(){
+	
+	// setup test input
+	$('#location').focus(function() {
+		if (this.value = this.defaultValue) {
+			this.value = ""; 
+		}
+	});
+	
+	$('#mapit').submit(function() {
+		serviceRequest($('#location').val());
+		return false;
+	});
 
 	// get query string params
 	// http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript/2880929#2880929
 	var urlParams = {};
 	(function () {
-	    var e,
-	        a = /\+/g,  // regex for replacing addition symbol with a space
-	        r = /([^&=]+)=?([^&]*)/g,
-	        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-	        q = window.location.search.substring(1);
+		var e,
+			a = /\+/g,	// regex for replacing addition symbol with a space
+			r = /([^&=]+)=?([^&]*)/g,
+			d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+			q = window.location.search.substring(1);
 
-	    while (e = r.exec(q))
-	       urlParams[d(e[1])] = d(e[2]);
+		while (e = r.exec(q))
+		   urlParams[d(e[1])] = d(e[2]);
 	})();
 
 	// setup DEBUG flag for development
 	var DEBUG = ('debug' in urlParams);
 
 	// setup raphael object
-	var map = Raphael(document.getElementById('map'), 970, 500);
+	map = Raphael(document.getElementById('map'), 970, 500);
 
 	// setup some locations for projection testing
 	// http://www.getlatlon.com
 	var tests = [];
 	tests[0] = ['Mobridge', 45.5372162, -100.4279129];
 	tests[1] = ['Seattle', 47.6062095, -122.3320708, ];
-	tests[2] = ['.  SF', 37.7749295, -122.4194155];
+	tests[2] = ['San Francisco', 37.7749295, -122.4194155];
 	tests[3] = ['Phoenix', 33.4483771, -112.0740373];
 	tests[4] = ['Austin', 30.267153, -97.7430608];
 	tests[5] = ['Miami', 25.7889689, -80.2264393];
@@ -38,12 +68,6 @@ $(document).ready(function(){
 	for (var l = 0; l < tests.length; l++) {
 		pathTest(map, l, tests[l][0], tests[l][1], tests[l][2]);	
 	}
-
-	// pretty print JSON
-	var debug_text = JSON.stringify(tests, null, 2);
-
-	// add to body
-	$('body').append('<div id="debug">' + debug_text + '</div>');
 
 	if (DEBUG) {
 
@@ -82,20 +106,29 @@ $(document).ready(function(){
 	
 });
 
-// color for paths
-var brown = '#916639';
+function serviceRequest(query) {
+	
+	// geocoding service
+	var service = 'http://tinygeocoder.com/create-api.php?q=' + query;
+	var service = 'http://tinygeocoder.com/create-api.php?q=' + query + '&callback=mapLocation';
+	
+	// request lat/lon pair
+	$.ajax({
+		url: service,
+		dataType: "script",
+	});
+	
+}
 
-// top left coordinate, Seattle, Wash
-var minLat = 47.66539;
-var minLon = -122.43164;
-var minX = 136;
-var minY = 72;
-
-// bottom right coordinate, Miami, Fl
-var maxLat = 25.7889689;
-var maxLon = -80.2264393;
-var maxX = 719;
-var maxY = 454;
+// callback for geocoding service to draw location
+function mapLocation(coords) {
+	var label = $('#location').val();
+	var lat = coords[0];
+	var lon = coords[1];
+	
+	pathTest(map, 1, label, lat, lon);
+	
+}
 
 // takes a lat/lon pair and draws a red dot on the map, with a label for debugging
 function pathTest(map, testNum, label, lat, lon) {
@@ -128,6 +161,10 @@ function pathTest(map, testNum, label, lat, lon) {
 			marker.animateAlong(ship_path, 1000, function() {
 				this.hide();
 			});
+			
+			// add coords to debug pane
+			$('#results').prepend(label + ', ' + lat + ', ' + lon + "\n");
+			
 	
 		}, (testNum-1)*1000);
 
@@ -142,6 +179,7 @@ function pathTest(map, testNum, label, lat, lon) {
 
 	// draw location marker
 	var mrkr = map.ellipse(destX, destY, 2, 2).attr({stroke: "none", fill: brown});
+	
 	
 }
 
