@@ -1,0 +1,29 @@
+#9101 9010 0070 4027 7797 96
+
+Delivered, July 07, 2011, 12:13 pm, SUGAR LAND, TX 77478
+Out for Delivery, July 07, 2011, 8:32 am, SUGAR LAND, TX 77478
+Sorting Complete, July 07, 2011, 8:22 am, SUGAR LAND, TX 77478
+Arrival at Unit, July 07, 2011, 4:12 am, SUGAR LAND, TX 77478
+Processed through Sort Facility, July 07, 2011, 12:22 am, NORTH HOUSTON, TX 77315
+Processed through Sort Facility, July 06, 2011, 1:17 am, SIOUX FALLS, SD 57104
+Electronic Shipping Info Received, July 05, 2011
+
+#CG07 2956 317U S
+Processed Through Sort Facility, July 07, 2011, 3:30 am, ISC CHICAGO IL (USPS)
+Arrived at Sort Facility, July 07, 2011, 2:41 am, ISC CHICAGO IL (USPS)
+Shipment Accepted, July 05, 2011, 5:40 pm, MOBRIDGE, SD 57601
+Electronic Shipping Info Received, July 05, 2011
+
+#9101 9010 0070 4027 7797 89
+Processed through Sort Facility, July 07, 2011, 4:13 am, GRAND RAPIDS, MI 49512
+Processed through Sort Facility, July 06, 2011, 1:33 am, SIOUX FALLS, SD 57104
+Electronic Shipping Info Received, July 05, 2011
+
+#9101 9010 0070 4027 7798 02
+Notice Left, July 07, 2011, 2:09 pm, JACKSON, MS 39202
+Out for Delivery, July 07, 2011, 8:48 am, JACKSON, MS 39201
+Sorting Complete, July 07, 2011, 8:38 am, JACKSON, MS 39201
+Arrival at Unit, July 07, 2011, 5:30 am, JACKSON, MS 39201
+Processed through Sort Facility, July 06, 2011, 4:45 pm, JACKSON, MS 39201
+Processed through Sort Facility, July 06, 2011, 1:36 am, SIOUX FALLS, SD 57104
+Electronic Shipping Info Received, July 05, 2011

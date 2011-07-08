@@ -25,4 +25,11 @@ body, html {
 	height: 500px;
 	background-image: url('../images/mapv4_bg.jpg');
 }
+#debug {
+	border: 1px solid #ddd;
+	padding: 5px 20px;
+	width: 970px;
+	margin: 0 auto 30px auto;
+	white-space: pre;
+}
 

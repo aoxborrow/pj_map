@@ -1,10 +1,14 @@
 # PJJ Order Status Map Changelog
 
-**July 7th, 2011 (x hours)**
+**July 7th, 2011 (6 hours)**
 
 - cleaned up v4 map, traced new USA outline closer to reference map.
 - output new background images and SVG for new outline
-- matched test cities to new map
+- implemented 3 different mapProject methods for applying lat/lon coordinates
+- added JSON library for debugging and future ajax use
+
+_Note:
+I ended up with three different methods for doing lat/lon conversion. They're all pretty accurate once you tune the latitude shift. Each would need adjustment if the map changed, but #3 is probably the most straightforward for maintenance._
 
 
 **July 5th, 2011 (6 hours)**
@@ -22,7 +26,7 @@
 - added delayed animation for each testing path, interesting to see the performance drops painfully on IE when animating multiple items
 - added README and pushed repo to private GitHub
 
-_Next:
+_Note:
 The map is coming along pretty quickly, but this was mostly the easy stuff. I've got the skeleton functions ready for lat/long conversion, hopefully I can just work out a simple formula that gives accurate results. From there it's gonna be animating monsters and lots of work on the path drawing._
 
 
