@@ -35,11 +35,10 @@ body, html {
 	color: #333;
 	padding: 2px;
 	font-size: 14px;
-	margin: 10px;
-	margin-left: 0;
+	margin: 10px 10px 0 0;
 }
 #debug input[type="text"] {
-	color: #888;	
+	color: #888;
 	border: 1px solid #ddd;
 }
 

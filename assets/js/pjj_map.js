@@ -65,6 +65,11 @@ $(document).ready(function(){
 
 	// setup raphael object
 	map = Raphael(document.getElementById('map'), 970, 500);
+	
+	// test locations
+	for (var l = 0; l < tests.length; l++) {
+		pathTest(l, tests[l][0], tests[l][1], tests[l][2]);	
+	}
 
 	if (DEBUG) {
 
@@ -101,31 +106,26 @@ $(document).ready(function(){
 	
 	}
 	
-	// test locations
-	for (var l = 0; l < tests.length; l++) {
-		pathTest(l, tests[l][0], tests[l][1], tests[l][2]);	
-	}
-	
-	
+
 });
 
 // geocoding service request
 function serviceRequest(query) {
 	
 	// geocoding service
-	var service = 'http://tinygeocoder.com/create-api.php?q=' + query;
 	var service = 'http://tinygeocoder.com/create-api.php?q=' + query + '&callback=mapLocation';
 	
 	// request lat/lon pair with callback
 	$.ajax({
 		url: service,
-		dataType: "script",
+		dataType: "script"
 	});
 	
 }
 
 // callback for geocoding service to draw location
 function mapLocation(coords) {
+	
 	var label = $('#location').val();
 	var lat = coords[0];
 	var lon = coords[1];
@@ -171,7 +171,7 @@ function pathTest(testNum, label, lat, lon) {
 			});
 			
 			// add coords to debug pane
-			$('#results').prepend(label + ', ' + lat + ', ' + lon + "\n");
+			$('#results').prepend(label + ', ' + lat + ', ' + lon + "<br/>");
 			
 	
 		}, (testNum-1)*1000);
