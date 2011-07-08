@@ -131,7 +131,7 @@ function mapLocation(coords) {
 	var lon = coords[1];
 	
 	// draw location based on supplied coords
-	pathTest(map, 1, label, lat, lon);
+	pathTest(1, label, lat, lon);
 	
 	// clear input box
 	$('#location').val('');
