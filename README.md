@@ -3,7 +3,12 @@
 **July 11th, 2011 (8 hours)**
 
 - organized code into pjj_map object
-- ...
+- added warehouse and monster images
+- added drawRoute method to take a route object and draw the alternating bezier curves between points
+- added route selection for testing and 4 test routes
+
+_Note:
+For the real map I'll have to spend a lot more time on the path making, there are a lot of destinations that aren't going to look right with this simplistic rendering. I'll have to tone down the curves so they work between shorter distances. Also, for a lot of the tracking numbers I looked at, the last tracking location is usually very close to the final destination. For these we'll have to just use a straight line, and put the monster earlier in the route._
 
 
 **July 7th, 2011 (8 hours)**

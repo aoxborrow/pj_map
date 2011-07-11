@@ -28,11 +28,6 @@ $(document).ready(function(){
 
 		// test map projection	
 		pjj_map.testProjection();
-	
-	} else if ('demo' in urlParams) {
-
-		// original animation demo
-		pjj_map.testDemo();
 		
 	} else {
 		
@@ -93,29 +88,6 @@ function pjj_map() {
 		
 	}
 
-	// the original simple animation
-	this.testDemo = function() {
-
-		// draw customer icon
-		var customer = map.set();
-		map.importSVG(mapAssets.customerSVG, customer);
-		customer.scale(.7, .7).translate(120, 85);
-
-		// draw warehouse icon
-		var warehouse = map.path(mapAssets.warehouse).attr({fill: '#222', stroke: '#222', 'stroke-width': .5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round'}).translate(625, 200);
-
-		// draw example shipping path
-		var pathSVG = 'M 660 245 c0,150 -200-100 -200,0 s-100,50 -100,0 s50,-50 50,0 s-100,50 -100,0 s50,-100 -130,-100';
-		var ship_path = map.path(pathSVG).attr({stroke: '#3b4449', 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': '- '});
-
-		// location marker (yellow: #ff0)
-		var marker = map.ellipse(660, 245, 8, 8).attr({stroke: "none", fill: "#ea8815"});
-		marker.animateAlong(ship_path, 8000, function() {
-			this.hide();
-		});
-
-	}
-
 	// test map projection with input form
 	this.testProjection = function() {
 		
@@ -163,24 +135,21 @@ function pjj_map() {
 
 		shipments = [];
 		shipments[0] = [];
-		shipments[0].push(['SIOUX FALLS, SD', 43.54998, -96.70033]);
-		shipments[0].push(['ST. LOUIS, MO', 38.646991, -90.224967]);
-		shipments[0].push(['RALEIGH, NC', 35.772096, -78.6386145]);
+		shipments[0].push(['SIOUX FALLS, SD', 43.54998, -96.70033, false]);
+		shipments[0].push(['ST. LOUIS, MO', 38.646991, -90.224967, true]);
+		shipments[0].push(['RALEIGH, NC', 35.772096, -78.6386145, false]);
 	
 		shipments[1] = [];
-		shipments[1].push(['SALT LAKE CITY, UT', 40.7607793, -111.8910474]);
-		shipments[1].push(['PHOENIX, AZ', 33.4483771, -112.0740373]);
+		shipments[1].push(['SALT LAKE CITY, UT', 40.7607793, -111.8910474, true]);
+		shipments[1].push(['PHOENIX, AZ', 33.4483771, -112.0740373, false]);
 		
 		shipments[3] = [];				
-		//shipments[3].push(['SIOUX FALLS, SD', 43.54998, -96.70033]);
-		// shipments[3].push(['CHICAGO, IL', 41.879535, -87.624333]);
-		shipments[3].push(['SPRINGFIELD, MO', 37.26530995561875, -93.33984375]);
-				
-		shipments[3].push(['ATLANTA, GA', 33.8339199536547, -84.462890625]);
+		shipments[3].push(['SPRINGFIELD, MO', 37.26530995561875, -93.33984375, true]);		
+		shipments[3].push(['ATLANTA, GA', 33.8339199536547, -84.462890625, false]);
 
 		shipments[2] = [];		
-		shipments[2].push(['POCATELLO, ID', 42.8713032, -112.4455344]);
-		shipments[2].push(['RENO, NV', 39.5296329, -119.8138027]);
+		shipments[2].push(['POCATELLO, ID', 42.8713032, -112.4455344, true]);
+		shipments[2].push(['RENO, NV', 39.5296329, -119.8138027, false]);
 
 				
 		// add route options
@@ -228,9 +197,12 @@ function pjj_map() {
 			point.lat = shipment[r][1];
 			point.lon = shipment[r][2];
 			point.label = shipment[r][0];
+			point.monster = shipment[r][3];
 			
 			route.points.push(point);
 		}
+		
+		route.points.push(route.destination);
 				
 		return route;
 		
@@ -259,20 +231,23 @@ function pjj_map() {
 		var alt = false;
 		
 		// translate intermediate points
-		for (var p = 0; p <= route.points.length; p++) {
+		for (var p = 0; p < route.points.length; p++) {
 			
 			// use destination for final point
-			var point = (p == route.points.length) ? route.destination : route.points[p];
+			var point = route.points[p];
+
+			// leave phoenix path incomplete
+			if (point.label == 'PHOENIX, AZ') {
+				continue;
+			}
 
 			// use origin for first point
 			var prevpoint = (p > 0) ? route.points[p-1] : origin;
 			var midpoint = {x: (prevpoint.x + point.x) / 2, y: (prevpoint.y + point.y) / 2};
 
 			// distance formula
-			var xs = prevpoint.x - point.x;
-			xs = xs * xs;
-			var ys = prevpoint.y - point.y;
-			ys = ys * ys;
+			var xs = Math.pow(prevpoint.x - point.x, 2);
+			var ys = Math.pow(prevpoint.y - point.y, 2);
 			var dist = Math.sqrt(xs + ys);
 			
 			// location of curve control points
@@ -289,7 +264,7 @@ function pjj_map() {
 				shiftX *= -1;
 				shiftY *= -1;
 			}
-			 
+						 
 			alt = ! alt;
 				
 			// draw shipping path with curve
@@ -297,28 +272,25 @@ function pjj_map() {
 			
 			// control points
 			// map.ellipse(midpoint.x, midpoint.y, 2, 2).attr({stroke: "none", fill: '#00f'});
-			// map.ellipse(midpoint.x + shiftX, midpoint.y + shiftY, 2, 2).attr({stroke: "none", fill: '#0f0'});
-				
-			// draw location marker except for monster point
-			// if (p == route.points.length-1) {
+			// map.ellipse(midpoint.x + shiftX, midpoint.y + shiftY, 2, 2).attr({stroke: "none", fill: '#0f0'});				
 			
+			// add monster icon
+			if (point.monster) {
+				map.image("./assets/images/brown_monster.png", point.x - 75, point.y - 60, 100, 69);				
+			}
+			
+			// add location marker and label
 			this.locationMarker(point.lat, point.lon, point.x, point.y, point.label);
+			
 
 		}
-		
-		// add final destination to path
-		ship_path += ' ' + route.destination.x + ' ' +	route.destination.y;
 				
 		// draw shipping path
 		map.path(ship_path).attr({opacity: .8, stroke: brown, 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'stroke-dasharray': '-'}).toBack();
-
-		// add monster icon		
-		var monster_point = route.points[route.points.length-1];
-		map.image("./assets/images/brown_monster.png", monster_point.x - 75, monster_point.y - 60, 100, 69);
-		
+	
 		// location marker
 		var marker = map.ellipse(origin.x, origin.y, 8, 8).attr({stroke: "none", fill: "#ea8815"});
-		marker.animateAlong(ship_path, 8000, function() {
+		marker.animateAlong(ship_path, 7000, function() {
 			this.hide();
 		});
 		
@@ -366,12 +338,12 @@ function pjj_map() {
 		// add a label
 		if (label !== undefined) {
 			// add white background for legibility
-			map.text(x+7, y+1, label).attr({'font-family': 'sans-serif', 'font-weight': 'bold', 'font-size': 10, fill: '#fff', 'text-anchor': 'start', stroke: '#fff', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}).toFront();
-			map.text(x+7, y, label).attr({'font-family': 'sans-serif', 'font-weight': 'bold', 'font-size': 10, fill: brown, 'text-anchor': 'start'}).toFront();
+			map.text(x+7, y+1, label).attr({'font-family': 'sans-serif', 'font-weight': 'bold', 'font-size': 11, fill: '#fff', 'text-anchor': 'start', stroke: '#fff', 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}).toFront();
+			map.text(x+7, y, label).attr({'font-family': 'sans-serif', 'font-weight': 'bold', 'font-size': 11, fill: brown, 'text-anchor': 'start'}).toFront();
 		}
 
 		// draw location marker
-		map.ellipse(x, y, 4, 4).attr({stroke: "none", fill: brown});
+		map.ellipse(x, y, 5, 5).attr({stroke: "none", fill: brown});
 		
 		// add coords to debug pane
 		$('#results').prepend(label + ', ' + lat + ', ' + lon + "<br/>");
