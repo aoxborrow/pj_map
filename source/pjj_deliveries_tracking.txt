@@ -15,6 +15,10 @@ Shipment Accepted, July 05, 2011, 5:40 pm, MOBRIDGE, SD 57601
 Electronic Shipping Info Received, July 05, 2011
 
 #9101 9010 0070 4027 7797 89
+Delivered, July 08, 2011, 12:09 pm, HONOR, MI 49640
+Out for Delivery, July 08, 2011, 9:12 am, HONOR, MI 49640
+Sorting Complete, July 08, 2011, 9:02 am, HONOR, MI 49640
+Arrival at Unit, July 08, 2011, 7:55 am, HONOR, MI 49640
 Processed through Sort Facility, July 07, 2011, 4:13 am, GRAND RAPIDS, MI 49512
 Processed through Sort Facility, July 06, 2011, 1:33 am, SIOUX FALLS, SD 57104
 Electronic Shipping Info Received, July 05, 2011

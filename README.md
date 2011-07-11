@@ -1,5 +1,11 @@
 # PJJ Order Status Map Changelog
 
+**July 11th, 2011 (8 hours)**
+
+- organized code into pjj_map object
+- ...
+
+
 **July 7th, 2011 (8 hours)**
 
 - cleaned up v4 map, traced new USA outline closer to reference map.
